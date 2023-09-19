@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Testing</title>
+</head>
+<body>
+  <h1>Hello, World!</h1>
+  <p>This is a basic HTML page.</p>
+  <script>
+    var xhr = new XMLHttpRequest();
+
+xhr.open("GET", "data.json", true);
+
+xhr.responseType = "json";
+
+xhr.onload = function() {
+  if (xhr.status === 200) {
+    var jsonData = xhr.response;
+    console.log(jsonData);
+  }
+};
+
+xhr.send();
+  </script>
+</body>
+</html>
