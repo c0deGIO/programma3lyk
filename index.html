@@ -1,27 +1,27 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Testing</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Checkboxes</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h1>Hello, World!</h1>
-  <p>This is a basic HTML page.</p>
-  <script>
-    var xhr = new XMLHttpRequest();
-
-xhr.open("GET", "Assets/data.json", true);
-
-xhr.responseType = "json";
-
-xhr.onload = function() {
-  if (xhr.status === 200) {
-    var jsonData = xhr.response;
-    console.log(jsonData);
-  }
-};
-
-xhr.send();
-  </script>
+    <div class="container">
+        <div class="top-left">
+            <h2>Επίλεξε τάξη</h2>
+            <input type="radio" name="option" value="Α"> Α<br>
+            <input type="radio" name="option" value="Β"> Β<br>
+            <input type="radio" name="option" value="Γ"> Γ<br>
+        </div>
+        <div class="top-middle">
+          <h2>Επίλεξε τμήμα</h2>
+        </div>
+        <div class="top-right">
+          <h2>Επίλεξε κατεύθυνση</h2>
+        </div>
+    </div>
+    <div class="spreadsheet" id="spreadsheet"></div>
+    <script src="script.js"></script>
 </body>
 </html>
