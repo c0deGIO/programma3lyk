@@ -1,3 +1,23 @@
+function loadCSSBasedOnDeviceType() {
+    if (window.innerWidth >= 1025) {
+        loadCSS('styles-pc.css');
+    } else {
+        loadCSS('styles-mobile.css');
+    }
+}
+
+function loadCSS(filename) {
+    var link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = filename;
+    document.head.appendChild(link);
+}
+
+// Call the function when the page loads and on window resize
+window.addEventListener('load', loadCSSBasedOnDeviceType);
+
+
 var xhr = new XMLHttpRequest();
 xhr.open("GET", "Assets/data.json", true);
 xhr.responseType = "json";
@@ -219,7 +239,9 @@ function newClick() {
 function handleCheckboxClick(event) {
     const target = event.target;
     if (target.type === "radio") {
+        // Replace this with your code to handle checkbox click
         if (target.checked) {
+            //console.log("Checkbox checked:", target.value);
             newClick();
         }
     }
