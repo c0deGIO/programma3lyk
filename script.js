@@ -44,7 +44,7 @@ checkboxes.forEach((checkbox) => {
                 checkbox.value = suboption;
                 checkbox.id = suboption;
                 const label = document.createElement("label");
-                label.textContent = suboption;
+                label.textContent = " " + suboption;
                 label.setAttribute("for", suboption);
                 primaryCheckboxes.appendChild(checkbox);
                 primaryCheckboxes.appendChild(label);
@@ -58,7 +58,7 @@ checkboxes.forEach((checkbox) => {
                 checkbox.value = suboption;
                 checkbox.id = suboption;
                 const label = document.createElement("label");
-                label.textContent = suboption;
+                label.textContent = " " + suboption;
                 label.setAttribute("for", suboption);
                 secondaryCheckboxes.appendChild(checkbox);
                 secondaryCheckboxes.appendChild(label);
@@ -72,6 +72,7 @@ checkboxes.forEach((checkbox) => {
                 ch.checked = false;
             });
         }
+        delete_spreadsheet();
     });
 });
 
@@ -218,9 +219,7 @@ function newClick() {
 function handleCheckboxClick(event) {
     const target = event.target;
     if (target.type === "radio") {
-        // Replace this with your code to handle checkbox click
         if (target.checked) {
-            //console.log("Checkbox checked:", target.value);
             newClick();
         }
     }
