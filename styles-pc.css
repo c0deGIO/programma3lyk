@@ -64,7 +64,6 @@ body {
     border-radius: 1vw;
     text-align: center;
     font-size: 1.2vw;
-    background-color: #ffffff;
 }
 
 label {
@@ -91,4 +90,13 @@ button:active,
 button:hover {
     background-color: #aaaaaa;
     color: #ffffff;
+}
+
+p {
+    margin: 3px;
+    text-align: center;
+}
+
+.notes {
+    margin: 15px;
 }
