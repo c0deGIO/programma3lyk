@@ -1,21 +1,21 @@
-function loadCSSBasedOnDeviceType() {
-    if (window.innerWidth >= 1025) {
-        loadCSS('styles-pc.css');
-    } else {
-        loadCSS('styles-mobile.css');
-    }
-}
-
-function loadCSS(filename) {
-    var link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.type = 'text/css';
-    link.href = filename;
-    document.head.appendChild(link);
-}
-
-// Call the function when the page loads and on window resize
-window.addEventListener('load', loadCSSBasedOnDeviceType);
+//function loadCSSBasedOnDeviceType() {
+//    if (window.innerWidth >= 1025) {
+//        loadCSS('styles-pc.css');
+//    } else {
+//        loadCSS('styles-mobile.css');
+//    }
+//}
+//
+//function loadCSS(filename) {
+//    var link = document.createElement('link');
+//    link.rel = 'stylesheet';
+//    link.type = 'text/css';
+//    link.href = filename;
+//    document.head.appendChild(link);
+//}
+//
+//// Call the function when the page loads and on window resize
+//window.addEventListener('load', loadCSSBasedOnDeviceType);
 
 
 var xhr = new XMLHttpRequest();
@@ -154,6 +154,7 @@ function create_spreadsheet(data) {
     let container = tablediv;
     container.innerHTML = "<h2>Πρόγραμμα</h2>";
     let table = document.createElement("table");
+    table.id = "table-id";
     var jsonData = timetable(data);
 
     // Get the keys (column names) of the first object in the JSON data
@@ -207,11 +208,28 @@ function create_spreadsheet(data) {
         container.appendChild(table); // Append the table to the container element
     }
     document.getElementById("spreadsheet").style.border = "3px solid #cccccc";
+
+    const tempdiv = document.querySelector(".download");
+    tempdiv.innerHTML = '';
+    // Create a button element
+    const button = document.createElement('button');
+
+    // Set the button's text and attributes
+    button.textContent = 'Κατέβασε το πρόγραμμα';
+    button.id = 'downloadButton';
+
+    // Assign the onclick event handler
+    button.onclick = captureElementAsImage;
+
+    // Append the button to the div
+    tempdiv.appendChild(button);
 }
 
 function delete_spreadsheet() {
     document.getElementById("spreadsheet").style.border = "none";
     tablediv.innerHTML = "";
+    let tempdiv = document.querySelector(".download");
+    tempdiv.innerHTML = '';
 }
 
 function newClick() {
@@ -248,3 +266,21 @@ function handleCheckboxClick(event) {
 }
 
 document.body.addEventListener("click", handleCheckboxClick);
+
+function captureElementAsImage() {
+    const elementToCapture = document.getElementById('spreadsheet');
+
+    // Use html2canvas to capture the element as an image
+    html2canvas(elementToCapture).then(function (canvas) {
+        // Convert the canvas to a data URL (PNG format)
+        const dataURL = canvas.toDataURL('image/png');
+
+        // Create a download link
+        const downloadLink = document.createElement('a');
+        downloadLink.href = dataURL;
+        downloadLink.download = 'Programma.png';
+
+        // Trigger a click event on the download link to initiate the download
+        downloadLink.click();
+    });
+}
