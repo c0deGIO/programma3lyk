@@ -36,7 +36,7 @@ body {
     align-content: flex-start;
     justify-content: flex-start;
     border: 3px solid #ccc;
-    border-radius: 1vw;
+    border-radius: 1.5vw;
 }
 
 .top-right {
@@ -45,7 +45,7 @@ body {
     display: block;
     border: 3px solid #cccccc;
     box-sizing: border-box;
-    border-radius: 1vw;
+    border-radius: 1.5vw;
 }
 
 .top-middle {
@@ -54,7 +54,7 @@ body {
     display: block;
     border: 3px solid #ccc;
     box-sizing: border-box;
-    border-radius: 1vw;
+    border-radius: 1.5vw;
 }
 
 .spreadsheet {
@@ -65,4 +65,30 @@ body {
     text-align: center;
     font-size: 1.2vw;
     background-color: #ffffff;
+}
+
+label {
+    color: #111111;
+    font-weight: bold;
+    font-size: medium;
+    display: inline;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+button {
+    padding: 10px;
+    border-radius: 13px;
+    border-width: 3px;
+    font-size: 1.2vw;
+    border-color: #cccccc;
+    background-color: #ffffff;
+    color: #111111;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+button:active,
+button:hover {
+    background-color: #aaaaaa;
+    color: #ffffff;
 }
