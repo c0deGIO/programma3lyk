@@ -1,5 +1,5 @@
 h2 {
-    font-size: 2vh; 
+    font-size: 2vh;
 }
 
 body {
@@ -71,4 +71,30 @@ body {
     text-align: center;
     font-size: 0.8vh;
     background-color: #ffffff;
+}
+
+label {
+    color: #111111;
+    font-weight: normal;
+    font-size: small;
+    display: inline;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+button {
+    padding: 8px;
+    border-radius: 10px;
+    border-width: 2px;
+    font-size: 1.2vh;
+    border-color: #cccccc;
+    background-color: #ffffff;
+    color: #111111;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+button:active,
+button:hover {
+    background-color: #aaaaaa;
+    color: #ffffff;
 }
