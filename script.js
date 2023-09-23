@@ -1,23 +1,3 @@
-//function loadCSSBasedOnDeviceType() {
-//    if (window.innerWidth >= 1025) {
-//        loadCSS('styles-pc.css');
-//    } else {
-//        loadCSS('styles-mobile.css');
-//    }
-//}
-//
-//function loadCSS(filename) {
-//    var link = document.createElement('link');
-//    link.rel = 'stylesheet';
-//    link.type = 'text/css';
-//    link.href = filename;
-//    document.head.appendChild(link);
-//}
-//
-//// Call the function when the page loads and on window resize
-//window.addEventListener('load', loadCSSBasedOnDeviceType);
-
-
 var xhr = new XMLHttpRequest();
 xhr.open("GET", "Assets/data.json", true);
 xhr.responseType = "json";
@@ -207,7 +187,9 @@ function create_spreadsheet(data) {
         };
         container.appendChild(table); // Append the table to the container element
     }
-    document.getElementById("spreadsheet").style.border = "3px solid #cccccc";
+    let spr = document.getElementById("spreadsheet");
+    spr.style.border = "3px solid #cccccc";
+    spr.style.background = "#ffffff";
 
     const tempdiv = document.querySelector(".download");
     tempdiv.innerHTML = '';
