@@ -20,7 +20,62 @@ def toGreek(s):
     return st
 
 
-#data = pd.read_excel("spreadsheet.xlsx")
+data = pd.read_excel("spreadsheet.xlsx")
+
+def getTeachers(data: pd.read_excel):
+    teachers = []
+    for i in range(34):
+        teachers.append(toGreek(data.iloc[1+i, 0]))
+    print(teachers)
+    with open("Teachers.json", "w") as f:
+        json.dump(teachers, f)
+
+def getClasses(data: pd.read_excel):
+    timetable = []
+    classes = []
+    for ix in range(35):
+        temp = []
+        for iy in range(34):
+            t = str(data.iloc[1+iy, ix+1])
+            if t == "nan":
+                temp.append([])
+            else:
+                t = toGreek(t)
+                if t not in classes:
+                    classes.append(t)
+                temp.append([t])
+        timetable.append(temp)
+    print(classes)
+    cl = {"first": ["Α", "Β", "Γ"], "second": [[], [], []], "third": [[], [], []]}
+    for i in classes:
+        if i.startswith("Α"):
+            cl["second"][0].append(i)
+        else:
+            if i.startswith("Β"):
+                if len(i) == 2:
+                    cl["second"][1].append(i)
+                else:
+                    cl["third"][1].append(i)
+            if i.startswith("Γ"):
+                if len(i) == 2:
+                    cl["second"][2].append(i)
+                else:
+                    cl["third"][2].append(i)
+
+    for i in range(3):
+        cl["second"][i].sort()
+        cl["third"][i].sort()
+
+    with open("SelectClass.json", "w") as f:
+        json.dump(cl, f)
+
+    with open("Timetable.json", "w") as f:
+        json.dump(timetable, f)
+
+
+getTeachers(data)
+getClasses(data)
+
 
 with open("Classes.json", "r") as f:
     classes = json.load(f)
