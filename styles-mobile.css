@@ -70,7 +70,6 @@ body {
     border-radius: 2vh;
     text-align: center;
     font-size: 0.8vh;
-    background-color: #ffffff;
 }
 
 label {
@@ -97,4 +96,13 @@ button:active,
 button:hover {
     background-color: #aaaaaa;
     color: #ffffff;
+}
+
+p {
+    margin: 3px;
+    text-align: center;
+}
+
+.notes {
+    margin: 15px;
 }
