@@ -19,23 +19,18 @@ const tablediv = document.querySelector(".spreadsheet");
 checkboxes.forEach((checkbox) => {
     checkbox.addEventListener("change", (event) => {
         if (event.target.checked) {
-            // Clear the existing checkboxes in the right container
             primaryCheckboxes.innerHTML = "<h2>Επίλεξε τμήμα</h2>";
             secondaryCheckboxes.innerHTML = "<h2>Επίλεξε κατεύθυνση</h2>";
             const id = ["Α", "Β", "Γ"].indexOf(event.target.value);
             checkboxes.forEach((ch) => {
                 var temp_id = ["Α", "Β", "Γ"].indexOf(ch.value);
-                //console.log(id, temp_id);
                 if (temp_id != id) {
                     ch.checked = false;
-                    //console.log(temp_id);
                 }
             });
 
             const jsonData1 = jsonDATA["classes"]["second"][parseInt(id)];
             const jsonData2 = jsonDATA["classes"]["third"][parseInt(id)];
-            // Create checkboxes based on the selected option
-            //console.log(jsonData);
 
             jsonData1.forEach((suboption) => {
                 var checkbox = document.createElement("input");
@@ -191,20 +186,44 @@ function create_spreadsheet(data) {
     spr.style.border = "3px solid #cccccc";
     spr.style.background = "#ffffff";
 
+    if (data[1] == null) {
+        var data2 = [data[0]];
+    } else {
+        var data2 = data;
+    }
+
+    window.location.hash = data2.join(",");
+
     const tempdiv = document.querySelector(".download");
     tempdiv.innerHTML = '';
     // Create a button element
-    const button = document.createElement('button');
+    const button1 = document.createElement('button');
+    button1.textContent = 'Κατέβασε το πρόγραμμα';
+    button1.id = 'downloadButton';
+    button1.onclick = captureElementAsImage;
+    tempdiv.appendChild(button1);
 
-    // Set the button's text and attributes
-    button.textContent = 'Κατέβασε το πρόγραμμα';
-    button.id = 'downloadButton';
+    const button2 = document.createElement('button');
+    button2.textContent = 'Αντιγραφή συνδέσμου';
+    button2.id = 'copyLink';
+    button2.addEventListener('click', function () {
+        copyLink(data);
+    });
+    tempdiv.appendChild(button2);
+}
 
-    // Assign the onclick event handler
-    button.onclick = captureElementAsImage;
+function copyLink(data) {
+    if (data[1] == null) {
+        data = [data[0]];
+    }
+    let newurl = window.location.href.split('#')[0];
+    newurl += "#" + data.join(",");
 
-    // Append the button to the div
-    tempdiv.appendChild(button);
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(newurl);
+    } else {
+        console.log("oh no");
+    }
 }
 
 function delete_spreadsheet() {
@@ -239,9 +258,7 @@ function newClick() {
 function handleCheckboxClick(event) {
     const target = event.target;
     if (target.type === "radio") {
-        // Replace this with your code to handle checkbox click
         if (target.checked) {
-            //console.log("Checkbox checked:", target.value);
             newClick();
         }
     }
@@ -262,7 +279,98 @@ function captureElementAsImage() {
         downloadLink.href = dataURL;
         downloadLink.download = 'Programma.png';
 
-        // Trigger a click event on the download link to initiate the download
         downloadLink.click();
     });
 }
+
+function processHash() {
+    const hashString = window.location.hash.substring(1);
+    const hashArr = hashString.split(',');
+    var hashArray = [];
+    hashArr.forEach((element) => {
+        hashArray.push(decodeURIComponent(element));
+    });
+
+    if (jsonDATA != null) {
+        let valid = false;
+        let cl = jsonDATA["classes"];
+        console.log(cl);
+        if (cl["second"][0].includes(hashArray[0])) {
+            valid = true;
+        } else if (cl["second"][1].includes(hashArray[0])) {
+            if (hashArray.length == 2) {
+                if (cl["third"][1].includes(hashArray[1])) {
+                    valid = true;
+                }
+            }
+        } else if (cl["second"][2].includes(hashArray[0])) {
+            console.log(7);
+            if (hashArray.length == 2) {
+                console.log(8);
+                if (cl["third"][2].includes(hashArray[1])) {
+                    valid = true;
+                }
+            }
+        }
+        if (valid) {
+            const radioElement = document.getElementById(hashArray[0][0]);
+            radioElement.checked = true;
+
+            primaryCheckboxes.innerHTML = "<h2>Επίλεξε τμήμα</h2>";
+            secondaryCheckboxes.innerHTML = "<h2>Επίλεξε κατεύθυνση</h2>";
+            const id = ["Α", "Β", "Γ"].indexOf(hashArray[0][0]);
+            checkboxes.forEach((ch) => {
+                var temp_id = ["Α", "Β", "Γ"].indexOf(ch.value);
+                if (temp_id != id) {
+                    ch.checked = false;
+                }
+            });
+
+            const jsonData1 = jsonDATA["classes"]["second"][parseInt(id)];
+            const jsonData2 = jsonDATA["classes"]["third"][parseInt(id)];
+
+            jsonData1.forEach((suboption) => {
+                var checkbox = document.createElement("input");
+                checkbox.type = "radio";
+                checkbox.name = "suboption1";
+                checkbox.value = suboption;
+                checkbox.id = suboption;
+                checkbox.checked = Boolean(hashArray[0] == suboption)
+                const label = document.createElement("label");
+                label.textContent = " " + suboption;
+                label.setAttribute("for", suboption);
+                primaryCheckboxes.appendChild(checkbox);
+                primaryCheckboxes.appendChild(label);
+                primaryCheckboxes.appendChild(document.createElement("br"));
+            });
+
+            jsonData2.forEach((suboption) => {
+                var checkbox = document.createElement("input");
+                checkbox.type = "radio";
+                checkbox.name = "suboption2";
+                checkbox.value = suboption;
+                checkbox.id = suboption;
+                checkbox.checked = Boolean(hashArray[1] == suboption)
+                const label = document.createElement("label");
+                label.textContent = " " + suboption;
+                label.setAttribute("for", suboption);
+                secondaryCheckboxes.appendChild(checkbox);
+                secondaryCheckboxes.appendChild(label);
+                secondaryCheckboxes.appendChild(document.createElement("br"));
+            });
+            create_spreadsheet(hashArray)
+        }
+    }
+}
+
+
+function checkIfJSONloaded() {
+    if (jsonDATA != null) {
+        processHash();
+    } else {
+        setTimeout(checkIfJSONloaded, 100);
+    }
+}
+
+checkIfJSONloaded();
+window.addEventListener('hashchange', checkIfJSONloaded);
