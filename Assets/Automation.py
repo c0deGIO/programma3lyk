@@ -46,6 +46,13 @@ def getClasses(data: pd.read_excel):
                 temp.append([t])
         timetable.append(temp)
     print(classes)
+    for i2, i in enumerate(timetable):
+        temp = []
+        for j in i:
+            temp += j
+        temp2 = list(dict().fromkeys(temp))
+        if len(temp2) != len(temp):
+            print(f"You messed up in {i2} | {temp2}, {temp}")
     cl = {"first": ["Α", "Β", "Γ"], "second": [[], [], []], "third": [[], [], []]}
     for i in classes:
         if i.startswith("Α"):
@@ -92,5 +99,3 @@ with open("Timetable.json", "r") as f:
 dic = {"teachers": teachers, "classes": sc, "timetable": timetable}
 with open("data.json", "w") as f:
     json.dump(dic, f)
-
-
