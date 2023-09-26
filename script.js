@@ -200,7 +200,7 @@ function create_spreadsheet(data) {
     const button1 = document.createElement('button');
     button1.textContent = 'Κατέβασε το πρόγραμμα';
     button1.id = 'downloadButton';
-    button1.onclick = captureElementAsImage;
+    button1.onclick = captureAndDownloadTable;
     tempdiv.appendChild(button1);
 
     const button2 = document.createElement('button');
@@ -282,6 +282,23 @@ function captureElementAsImage() {
         downloadLink.click();
     });
 }
+
+
+function captureAndDownloadTable() {
+    // Create a canvas with double-resolution.
+    const element = document.getElementById('spreadsheet');
+    html2canvas(element, {
+    scale: 3,
+    onrendered: function (canvas) {
+        const dataURL = canvas.toDataURL('image/png');
+            const downloadLink = document.createElement('a');
+            downloadLink.href = dataURL;
+            downloadLink.download = 'Programma.png';
+            downloadLink.click();
+    }
+});
+}
+
 
 function processHash() {
     const hashString = window.location.hash.substring(1);
