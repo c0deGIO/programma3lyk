@@ -33,33 +33,12 @@ checkboxes.forEach((checkbox) => {
             const jsonData2 = jsonDATA["classes"]["third"][parseInt(id)];
 
             jsonData1.forEach((suboption) => {
-                var checkbox = document.createElement("input");
-                checkbox.type = "radio";
-                checkbox.name = "suboption1";
-                checkbox.value = suboption;
-                checkbox.id = suboption;
-                const label = document.createElement("label");
-                label.textContent = " " + suboption;
-                label.setAttribute("for", suboption);
-                primaryCheckboxes.appendChild(checkbox);
-                primaryCheckboxes.appendChild(label);
-                primaryCheckboxes.appendChild(document.createElement("br"));
+                newRadioLabel("suboption1", suboption, false, primaryCheckboxes);
             });
 
             jsonData2.forEach((suboption) => {
-                var checkbox = document.createElement("input");
-                checkbox.type = "radio";
-                checkbox.name = "suboption2";
-                checkbox.value = suboption;
-                checkbox.id = suboption;
-                const label = document.createElement("label");
-                label.textContent = " " + suboption;
-                label.setAttribute("for", suboption);
-                secondaryCheckboxes.appendChild(checkbox);
-                secondaryCheckboxes.appendChild(label);
-                secondaryCheckboxes.appendChild(document.createElement("br"));
+                newRadioLabel("suboption2", suboption, false, secondaryCheckboxes);
             });
-
         } else {
             primaryCheckboxes.innerHTML = "<h2>Επίλεξε τμήμα</h2>";
             secondaryCheckboxes.innerHTML = "<h2>Επίλεξε κατεύθυνση</h2>";
@@ -179,7 +158,7 @@ function create_spreadsheet(data) {
                 tr.appendChild(td);
             }
             table.appendChild(tr); // Append the table row to the table
-        };
+        }
         container.appendChild(table); // Append the table to the container element
     }
     let spr = document.getElementById("spreadsheet");
@@ -195,18 +174,18 @@ function create_spreadsheet(data) {
     window.location.hash = data2.join(",");
 
     const tempdiv = document.querySelector(".download");
-    tempdiv.innerHTML = '';
+    tempdiv.innerHTML = "";
     // Create a button element
-    const button1 = document.createElement('button');
-    button1.textContent = 'Κατέβασε το πρόγραμμα';
-    button1.id = 'downloadButton';
+    const button1 = document.createElement("button");
+    button1.textContent = "Κατέβασε το πρόγραμμα";
+    button1.id = "downloadButton";
     button1.onclick = captureAndDownloadTable;
     tempdiv.appendChild(button1);
 
-    const button2 = document.createElement('button');
-    button2.textContent = 'Αντιγραφή συνδέσμου';
-    button2.id = 'copyLink';
-    button2.addEventListener('click', function () {
+    const button2 = document.createElement("button");
+    button2.textContent = "Αντιγραφή συνδέσμου";
+    button2.id = "copyLink";
+    button2.addEventListener("click", function () {
         copyLink(data);
     });
     tempdiv.appendChild(button2);
@@ -216,7 +195,7 @@ function copyLink(data) {
     if (data[1] == null) {
         data = [data[0]];
     }
-    let newurl = window.location.href.split('#')[0];
+    let newurl = window.location.href.split("#")[0];
     newurl += "#" + data.join(",");
 
     if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -230,7 +209,7 @@ function delete_spreadsheet() {
     document.getElementById("spreadsheet").style.border = "none";
     tablediv.innerHTML = "";
     let tempdiv = document.querySelector(".download");
-    tempdiv.innerHTML = '';
+    tempdiv.innerHTML = "";
 }
 
 function newClick() {
@@ -254,10 +233,9 @@ function newClick() {
     }
 }
 
-
 function handleCheckboxClick(event) {
     const target = event.target;
-    if (target.type === "radio") {
+    if (target.type === "radio" && target.name != "option") {
         if (target.checked) {
             newClick();
         }
@@ -267,42 +245,40 @@ function handleCheckboxClick(event) {
 document.body.addEventListener("click", handleCheckboxClick);
 
 function captureElementAsImage() {
-    const elementToCapture = document.getElementById('spreadsheet');
+    const elementToCapture = document.getElementById("spreadsheet");
 
     // Use html2canvas to capture the element as an image
     html2canvas(elementToCapture).then(function (canvas) {
         // Convert the canvas to a data URL (PNG format)
-        const dataURL = canvas.toDataURL('image/png');
+        const dataURL = canvas.toDataURL("image/png");
 
         // Create a download link
-        const downloadLink = document.createElement('a');
+        const downloadLink = document.createElement("a");
         downloadLink.href = dataURL;
-        downloadLink.download = 'Programma.png';
+        downloadLink.download = "Programma.png";
 
         downloadLink.click();
     });
 }
 
-
 function captureAndDownloadTable() {
     // Create a canvas with double-resolution.
-    const element = document.getElementById('spreadsheet');
+    const element = document.getElementById("spreadsheet");
     html2canvas(element, {
-    scale: 3,
-    onrendered: function (canvas) {
-        const dataURL = canvas.toDataURL('image/png');
-            const downloadLink = document.createElement('a');
+        scale: 3,
+        onrendered: function (canvas) {
+            const dataURL = canvas.toDataURL("image/png");
+            const downloadLink = document.createElement("a");
             downloadLink.href = dataURL;
-            downloadLink.download = 'Programma.png';
+            downloadLink.download = "Programma.png";
             downloadLink.click();
-    }
-});
+        },
+    });
 }
-
 
 function processHash() {
     const hashString = window.location.hash.substring(1);
-    const hashArr = hashString.split(',');
+    const hashArr = hashString.split(",");
     var hashArray = [];
     hashArr.forEach((element) => {
         hashArray.push(decodeURIComponent(element));
@@ -311,7 +287,6 @@ function processHash() {
     if (jsonDATA != null) {
         let valid = false;
         let cl = jsonDATA["classes"];
-        console.log(cl);
         if (cl["second"][0].includes(hashArray[0])) {
             valid = true;
         } else if (cl["second"][1].includes(hashArray[0])) {
@@ -321,9 +296,7 @@ function processHash() {
                 }
             }
         } else if (cl["second"][2].includes(hashArray[0])) {
-            console.log(7);
             if (hashArray.length == 2) {
-                console.log(8);
                 if (cl["third"][2].includes(hashArray[1])) {
                     valid = true;
                 }
@@ -347,39 +320,35 @@ function processHash() {
             const jsonData2 = jsonDATA["classes"]["third"][parseInt(id)];
 
             jsonData1.forEach((suboption) => {
-                var checkbox = document.createElement("input");
-                checkbox.type = "radio";
-                checkbox.name = "suboption1";
-                checkbox.value = suboption;
-                checkbox.id = suboption;
-                checkbox.checked = Boolean(hashArray[0] == suboption)
-                const label = document.createElement("label");
-                label.textContent = " " + suboption;
-                label.setAttribute("for", suboption);
-                primaryCheckboxes.appendChild(checkbox);
-                primaryCheckboxes.appendChild(label);
-                primaryCheckboxes.appendChild(document.createElement("br"));
+                var checked = Boolean(hashArray[0] == suboption);
+                newRadioLabel("suboption1", suboption, checked, primaryCheckboxes);
             });
 
             jsonData2.forEach((suboption) => {
-                var checkbox = document.createElement("input");
-                checkbox.type = "radio";
-                checkbox.name = "suboption2";
-                checkbox.value = suboption;
-                checkbox.id = suboption;
-                checkbox.checked = Boolean(hashArray[1] == suboption)
-                const label = document.createElement("label");
-                label.textContent = " " + suboption;
-                label.setAttribute("for", suboption);
-                secondaryCheckboxes.appendChild(checkbox);
-                secondaryCheckboxes.appendChild(label);
-                secondaryCheckboxes.appendChild(document.createElement("br"));
+                var checked = Boolean(hashArray[1] == suboption);
+                newRadioLabel("suboption2", suboption, checked, secondaryCheckboxes);
             });
-            create_spreadsheet(hashArray)
+            create_spreadsheet(hashArray);
         }
     }
 }
 
+function newRadioLabel(name, id, checked, div) {
+    const label = document.createElement("label");
+    label.setAttribute("for", id);
+    const input = document.createElement("input");
+    input.type = "radio";
+    input.id = id;
+    input.name = name;
+    input.value = id;
+    input.checked = checked;
+
+    label.appendChild(input);
+    label.appendChild(document.createTextNode(" "+String(id)));
+
+    div.appendChild(label);
+    div.appendChild(document.createElement("br"));
+}
 
 function checkIfJSONloaded() {
     if (jsonDATA != null) {
@@ -390,4 +359,4 @@ function checkIfJSONloaded() {
 }
 
 checkIfJSONloaded();
-window.addEventListener('hashchange', checkIfJSONloaded);
+window.addEventListener("hashchange", checkIfJSONloaded);
