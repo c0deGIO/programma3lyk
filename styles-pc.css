@@ -5,11 +5,8 @@ body {
     height: 100vh;
     display: flex;
     flex-direction: column;
-    /* Stack child divs vertically */
     align-items: center;
-    /* Center child divs horizontally */
     justify-content: flex-start;
-    /* Align child divs to the top */
     background-color: #f9f9f9;
 }
 
@@ -20,9 +17,7 @@ body {
     margin: 0px;
     box-sizing: border-box;
     display: flex;
-    /* Add this to align the child divs horizontally */
     justify-content: space-between;
-    /* Create space between child divs */
     text-align: center;
 }
 
@@ -48,6 +43,7 @@ body {
     border-radius: 1.5vw;
 }
 
+
 .top-middle {
     padding: 1vw;
     margin: 1.5vw;
@@ -68,11 +64,34 @@ body {
 
 label {
     color: #111111;
-    font-weight: bold;
+    font-weight: 400;
     font-size: medium;
-    display: inline;
-    padding: 5px;
+    display: inline-block;
     border-radius: 10px;
+    transition: color 0.3s, transform 0.3s;
+    transform-origin: center;
+    padding-right: 5px;
+    padding-left: 5px;
+    
+    position: relative;
+}
+
+label input[type="radio"] {
+    margin-right: 5px;
+}
+
+label:hover,
+label:active {
+    color: #303030;
+    transform: scale(1.1);
+    font-weight: 550;
+}
+
+input[type="radio"]:checked + label {
+    color: #303030;
+    transform: scale(1.1);
+    font-weight: 550;
+    background-color: #111111;
 }
 
 button {
@@ -100,4 +119,5 @@ p {
 
 .notes {
     margin: 15px;
+    padding-bottom: 20px;
 }
