@@ -1,11 +1,13 @@
 import pandas as pd
-import json
+import json, pyperclip
 
 with open("Chars.txt", "r", encoding="utf-8") as f:
     data = f.read().rsplit("\n")
     chars = {}
     for i in data:
         chars[i[0]] = i[1]
+
+
 
 def toGreek(s):
     st = ""
@@ -17,11 +19,12 @@ def toGreek(s):
             st += i.upper()
     return st
 
+
 data = pd.read_excel("spreadsheet.xlsx")
 
 def getTeachers(data: pd.read_excel):
     teachers = []
-    for i in range(35):
+    for i in range(37):
         teachers.append(toGreek(data.iloc[1+i, 0]))
     print(teachers)
     with open("Teachers.json", "w") as f:
@@ -32,7 +35,7 @@ def getClasses(data: pd.read_excel):
     classes = []
     for ix in range(35):
         temp = []
-        for iy in range(35):
+        for iy in range(37):
             t = str(data.iloc[1+iy, ix+1])
             if t == "nan":
                 temp.append([])
@@ -59,6 +62,8 @@ def getClasses(data: pd.read_excel):
                 if len(i) == 2:
                     if i[1].isdigit():
                         cl["second"][1].append(i)
+                    #else:
+                    #    cl["third"][1].append(i)
                 else:
                     cl["third"][1].append(i)
             if i.startswith("Γ"):
@@ -97,3 +102,5 @@ with open("Timetable.json", "r") as f:
 dic = {"teachers": teachers, "classes": sc, "timetable": timetable}
 with open("data.json", "w") as f:
     json.dump(dic, f)
+
+pyperclip.copy(json.dumps(dic))
