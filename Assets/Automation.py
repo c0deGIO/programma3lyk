@@ -20,12 +20,17 @@ def toGreek(s):
     return st
 
 
-data = pd.read_excel("spreadsheet.xlsx")
+data = pd.read_excel("2024Spreadsheet.xlsx")
 
 def getTeachers(data: pd.read_excel):
     teachers = []
-    for i in range(37):
-        teachers.append(toGreek(data.iloc[1+i, 0]))
+    for i in range(40):
+        try:
+            s = data.iloc[1+i, 0]
+            teachers.append(toGreek(s))
+        except Exception as e:
+            print(f"Exception: {e}, for iy: {i}")
+            break
     print(teachers)
     with open("Teachers.json", "w") as f:
         json.dump(teachers, f)
@@ -35,15 +40,19 @@ def getClasses(data: pd.read_excel):
     classes = []
     for ix in range(35):
         temp = []
-        for iy in range(37):
-            t = str(data.iloc[1+iy, ix+1])
-            if t == "nan":
-                temp.append([])
-            else:
-                t = toGreek(t)
-                if t not in classes:
-                    classes.append(t)
-                temp.append([t])
+        for iy in range(40):
+            try:
+                t = str(data.iloc[1+iy, ix+1])
+                if t == "nan":
+                    temp.append([])
+                else:
+                    t = toGreek(t)
+                    if t not in classes:
+                        classes.append(t)
+                    temp.append([t])
+            except Exception as e:
+                print(f"Exception: {e}, for iy: {iy}")
+                break
         timetable.append(temp)
     print(classes)
     for i2, i in enumerate(timetable):
