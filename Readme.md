@@ -1,5 +1,6 @@
 This is a project for personal use. It is my first html / javascript project.
 The aim was to create a user-friendly site, to output your class' timetable in just a second!
+You can view the website here: https://c0degio.github.io/programma3lyk/
 
 Sources:
 - https://www.tutorialspoint.com/how-to-convert-json-data-to-a-html-table-using-javascript-jquery
