@@ -150,9 +150,13 @@ function create_spreadsheet(data) {
                 if (jsonData[j - 1][i][1]) {
                     td.style.backgroundColor = "#d5ecf2";
                 } else {
-                    td.style.backgroundColor = "#e8eaeb";
+                    if (jsonData[j - 1][i][0].length > 0) {
+                        td.style.backgroundColor = "#e8eaeb";
+                    } else {
+                        td.style.backgroundColor = "#d3d5d6";
+                        td.innerText = "-";
+                    }
                 }
-                //td.style.margin = "10px";
                 td.style.padding = "10px";
                 td.style.borderRadius = "3px";
                 tr.appendChild(td);
@@ -201,7 +205,7 @@ function copyLink(data) {
     if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(newurl);
     } else {
-        console.log("oh no");
+        console.log("Can't copy the URL");
     }
 }
 
@@ -344,7 +348,7 @@ function newRadioLabel(name, id, checked, div) {
     input.checked = checked;
 
     label.appendChild(input);
-    label.appendChild(document.createTextNode(" "+String(id)));
+    label.appendChild(document.createTextNode(" " + String(id)));
 
     div.appendChild(label);
     div.appendChild(document.createElement("br"));
