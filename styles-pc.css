@@ -108,6 +108,7 @@ button {
 
 button:active,
 button:hover {
+    cursor: pointer;
     background-color: #aaaaaa;
     color: #ffffff;
 }
