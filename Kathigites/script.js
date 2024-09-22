@@ -35,13 +35,14 @@ function timetable(data) {
             for (let j = 0; j < 7; j++) {
                 var s = jsonDATA["timetable"][i*7+j][idx];
                 if (s.length>0) {
-                    day.push(s[0]);
+                    day.push(s);
                 } else {
                     day.push(null);
                 }
             }
             spreadsheet.push(day);
         }
+        //console.log(spreadsheet);
         return spreadsheet;
     }
     return null
@@ -91,7 +92,7 @@ function create_spreadsheet(data) {
                 let td = document.createElement("td");
                 if (jsonData[j - 1][i] !== null) {
                     td.style.backgroundColor = "#e8eaeb";
-                    td.innerText = jsonData[j - 1][i];
+                    td.innerText = jsonData[j - 1][i].join(", ");
                 } else {
                     td.style.backgroundColor = "#d3d5d6";
                     td.innerText = "-";
@@ -135,7 +136,7 @@ function copyLink(data) {
     if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(newurl);
     } else {
-        console.log("oh no");
+        console.log("Can't copy the URL");
     }
 }
 
